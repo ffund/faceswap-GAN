@@ -46,6 +46,8 @@ def adversarial_loss(netD, real, fake_abgr, distorted, gan_training="mixup_LSGAN
         mixup = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake, distorted])     
         pred_fake = netD(concatenate([fake, distorted]))
         pred_mixup = netD(mixup)
+        print("Pred fake: ", pred_fake, len(pred_fake))
+        print("Pred_mixup: ", pred_mixup, len(pred_mixup))
         loss_D = calc_loss(pred_mixup, lam * K.ones_like(pred_mixup), "l2")
         loss_G = weights['w_D'] * calc_loss(pred_fake, K.ones_like(pred_fake), "l2")
         mixup2 = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake_bgr, distorted])
